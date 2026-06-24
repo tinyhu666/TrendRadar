@@ -3,6 +3,7 @@ name: Get Hot News
 on:
   schedule:
     - cron: "30 1 * * *"  # Runs daily at 09:30 Asia/Shanghai
+    # Publishes the generated report to the gh-pages branch after each run.
 
   workflow_dispatch:
 
