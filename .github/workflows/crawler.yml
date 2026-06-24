@@ -2,8 +2,7 @@ name: Get Hot News
 
 on:
   schedule:
-    - cron: "30 1 * * *"  # Runs daily at 09:30 Asia/Shanghai
-    # Publishes the generated report to the gh-pages branch after each run.
+    - cron: "33 * * * *"  # Original TrendRadar cadence: once an hour at minute 33.
 
   workflow_dispatch:
 
@@ -112,9 +111,9 @@ jobs:
             cp -R output/html _site/output/html
           fi
 
-      - name: Set current date
+      - name: Set current run time
         if: success()
-        run: echo "DATE=$(TZ=Asia/Shanghai date +'%Y-%m-%d')" >> "$GITHUB_ENV"
+        run: echo "RUN_TIME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> "$GITHUB_ENV"
 
       - name: Deploy to GitHub Pages
         if: success()
@@ -124,4 +123,4 @@ jobs:
           publish_dir: ./_site
           keep_files: true
           publish_branch: gh-pages
-          commit_message: "Daily TrendRadar: ${{ env.DATE }}"
+          commit_message: "TrendRadar report: ${{ env.RUN_TIME }}"
